@@ -1,0 +1,92 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+local $SIG{__DIE__} = sub {
+    my $msg = shift;
+    warn "$msg\n";
+    exit 1;
+};
+
+# refactoring will be done by next release
+
+my $perl_version  = shift or usage();
+my %shell = detect_shell();
+my $cmd   = script($perl_version, $shell{name});
+exec $shell{path}, @{$shell{opts}}, $cmd;
+
+exit;
+
+sub detect_shell {
+    my %shell;
+
+    $shell{path} = $ENV{SHELL};
+
+    if ($shell{path} =~ /bash/) {
+        $shell{name} = 'bash';
+        $shell{opts} = [ '-c' ];
+    } else {
+        $shell{name} = 'unknown';
+    }
+
+    return %shell;
+}
+
+sub script {
+    my ($version, $shell) = @_;
+
+    my $script;
+    if ($shell eq 'bash') {
+        $script = bash_script($version);
+    } else {
+        die "unknown shell";
+    }
+
+    $script =~ s/\s+/ /g;
+    return $script;
+}
+
+sub bash_script {
+    my $version = shift;
+
+    return <<"EOS";
+echo "@@@@@ Start migration to $version"; sleep 1;
+
+echo "@@@@@ Installing ExtUtils::Installed"; sleep 1;
+cpanm ExtUtils::Installed;
+
+echo "@@@@@ Extracting all modules"; sleep 1;
+if [[ -e /tmp/modules.list ]]; then rm /tmp/modules.list; fi;
+perl -MExtUtils::Installed -E 'say for ExtUtils::Installed->new->modules' > /tmp/modules.list;
+
+echo "@@@@@ Upgrading perlbrew"; sleep 1;
+curl -L http://xrl.us/perlbrewinstall | bash;
+source ~/perl5/perlbrew/etc/bashrc;
+
+echo "@@@@@ Installing $version"; sleep 1;
+perlbrew install "$version" -v &&
+
+echo "@@@@@ Switching new environment"; sleep 1;
+perlbrew switch "$version" &&
+
+echo "@@@@@ Installing cpanminus for new environment"; sleep 1;
+perlbrew install-cpanm &&
+
+echo "@@@@@ Installing all modules into new environment"; sleep 1;
+cpanm < /tmp/modules.list;
+
+echo "@@@@@ Re-running cpanminus to check everything is OK"; sleep 1;
+cpanm < /tmp/modules.list;
+
+echo "@@@@@ Done migration!";
+perl -V;
+EOS
+}
+
+sub usage {
+    die <<"USAGE";
+Usage:
+    $0 [perl-version]
+USAGE
+}
+
+__END__
