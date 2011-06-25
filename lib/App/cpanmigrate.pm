@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 local $SIG{__DIE__} = sub {
     my $msg = shift;
