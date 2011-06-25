@@ -92,7 +92,7 @@ C<cpanmigrate> is integrated with L<App::cpanminus> and L<App::perlbrew>.
 
 Take a look at L<App::cpanmigrate::bash>. The main part of development is writing shell script.
 
-Additionally, write some logic to detect shell. See also C<App::cpanmigrate->detect_shell()>.
+Additionally, write some logic to detect shell. See also C<< App::cpanmigrate->detect_shell() >>.
 
 Then, please send me a pull request at L<https://github.com/punytan/p5-App-cpanmigrate> :)
 
