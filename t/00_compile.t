@@ -1,4 +1,8 @@
 use strict;
-use Test::More tests => 1;
+use warnings;
+use Test::More tests => 2;
 
-BEGIN { use_ok 'App::cpanmigrate' }
+BEGIN {
+    use_ok 'App::cpanmigrate';
+    use_ok 'App::cpanmigrate::bash';
+}
