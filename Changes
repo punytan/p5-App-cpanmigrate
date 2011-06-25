@@ -1,5 +1,8 @@
 Revision history for Perl extension App::cpanmigrate
 
+0.03    Sat Jun 25 20:55:49 2011
+        - fix a bug
+
 0.02    Sat Jun 25 20:39:11 2011
         - first implementation with bash support
 
