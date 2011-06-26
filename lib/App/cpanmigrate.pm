@@ -54,8 +54,12 @@ sub detect_shell {
 
     $self->{shell}{path} = $ENV{SHELL};
 
-    if ($self->{shell}{path} =~ /bash/) {
+    if ($self->{shell}{path} =~ /(bash|zsh)/) {
         $self->{shell}{name} = 'bash';
+        $self->{shell}{opts} = [ '-c' ];
+
+    } elsif ($self->{shell}{path} =~ /(csh)/) {
+        $self->{shell}{name} = 'csh';
         $self->{shell}{opts} = [ '-c' ];
 
     } else {
