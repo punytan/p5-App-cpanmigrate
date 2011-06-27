@@ -12,7 +12,7 @@ echo "@@@@@ Installing ExtUtils::Installed"; sleep 1;
 cpanm ExtUtils::Installed;
 
 echo "@@@@@ Extracting all modules"; sleep 1;
-if ( -e /tmp/modules.list ) then; rm /tmp/modules.list; endif;
+if ( -e /tmp/modules.list ) rm /tmp/modules.list;
 perl -MExtUtils::Installed -E 'say for ExtUtils::Installed->new->modules' > /tmp/modules.list;
 
 echo "@@@@@ Upgrading perlbrew"; sleep 1;
