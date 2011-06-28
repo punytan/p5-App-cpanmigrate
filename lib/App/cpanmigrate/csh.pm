@@ -24,6 +24,7 @@ perlbrew install "$version" -v &&
 
 echo "@@@@@ Switching new environment"; sleep 1;
 perlbrew switch "$version" &&
+source ~/perl5/perlbrew/etc/cshrc;
 
 echo "@@@@@ Installing cpanminus for new environment"; sleep 1;
 perlbrew install-cpanm &&
