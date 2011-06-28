@@ -88,7 +88,11 @@ C<cpanmigrate> is integrated with L<App::cpanminus> and L<App::perlbrew>.
 
 =over 4
 
-=item * C<bash> on Linux
+=item * C<bash>
+
+=item * C<zsh>
+
+=item * C<csh>
 
 =back
 
@@ -103,6 +107,10 @@ Then, please send me a pull request at L<https://github.com/punytan/p5-App-cpanm
 =head1 AUTHOR
 
 punytan E<lt>punytan@gmail.comE<gt>
+
+=head1 CONTRIBUTORS
+
+toritori0318 - patches for C<zsh> and C<csh>
 
 =head1 SEE ALSO
 
